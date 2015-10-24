@@ -1,6 +1,6 @@
 function Eno() {
     var self = this;
-    this.numericalSequences = [ [1,5,-4,6],
+    this.numericalChordSeqs = [ [1,5,-4,6],
                                 [1,5,-6,-3],
                                 [-4,5,4,5],
                                 [1,-6,4,5],
@@ -19,17 +19,25 @@ function Eno() {
     this.key = "C";
     this.pitch = 3;
 
-    this.drums = EDrums('x.x.x.x.');
-    this.drums.amp = 0.75;
+    this.drumSequences = [{kick: 0.75, hat: 0, snare:0},
+                          {kick: 0.75, hat: 0.5, snare:0},
+                          {kick: 0.75, hat: 0.5, snare:0.5}];
+
+    this.kick = EDrums('x.x.x.x.');
+    this.kick.amp = 0.75;
+    this.hat = EDrums('*******-');
+    this.hat.amp = 0;
+    this.snare = EDrums('..o...o.');
+    this.snare.amp = 0;
 
     this.bass = FM('bass')
        .note.seq( [0,0,0,7,14,13].rnd(), [1/8,1/16].rnd(1/16,2));
 
-    this.keys = Synth( 'rhodes', {amp:.35} )
-        .chord.seq( Rndi(0,6,3), 1 );
+    this.keys = Synth( 'rhodes', {amp:.35} );
         //.fx.add( Delay() )
 
     this.setChordSequence(0);
+    this.setDrumSequence(0);
     //Gibber.scale.mode.seq( ['Minor','Mixolydian'], [6,2] )
 
 }
@@ -44,7 +52,7 @@ Eno.prototype.setTempo = function(newTempo) {
 
 Eno.prototype.setChordSequence = function(number) {
     var self = this;
-    var numerical = this.numericalSequences[number];
+    var numerical = this.numericalChordSeqs[number];
     var sequence = [];
     var roots = [];
 
@@ -72,10 +80,17 @@ Eno.prototype.setChordSequence = function(number) {
     changes = Array.apply(null, Array(numerical.length)).map(Number.prototype.valueOf, 1); // need to change this to be more interesting
     Gibber.scale.root.seq(roots, changes);
     this.keys.chord.seq(sequence, changes);
-}
+};
+
+Eno.prototype.setDrumSequence = function(number) {
+    amps = this.drumSequences[number];
+    this.kick.amp = amps.kick;
+    this.hat.amp = amps.hat;
+    this.snare.amp = amps.snare;
+};
 
 function setupGibber() {
   window.eno = new Eno();
-};
+}
 
 
