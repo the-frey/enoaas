@@ -6,6 +6,10 @@ class Text
   field :sender, type: String
   field :content, type: String
 
+  def id_as_string
+    id.to_s
+  end
+
   def analyse_sentiment
     return sentiment unless sentiment.nil?
     sentiment = Sentimentalizer.analyze(content).overall_probability
@@ -50,6 +54,14 @@ class Text
 
     def last_but_one
       Text.desc(:created_at).limit(2).all()[1]
+    end
+
+    def last_but_one
+      Text.desc(:created_at).limit(1).second
+    end
+
+    def last_two
+      [last_but_one, latest]
     end
 
     def number_within_bounds(bottom_bound, number, upper_bound)

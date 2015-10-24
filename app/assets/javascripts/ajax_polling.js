@@ -24,7 +24,12 @@ function AjaxRequest(eno){
   }
 
   this.successfulUpdate = function(response){
-    eno.updateDOM(response);
+    if($('#bootstrap-music').data('currentTextId') === response.latest_text_id) {
+      // we already have it on page
+      console.log('Already running on latest Text record.');
+    } else {
+      eno.updateDOM(response);
+    }
   };
 
   this.unsuccessfulUpdate = function(message){
