@@ -29,7 +29,7 @@ function Eno() {
         .chord.seq( Rndi(0,6,3), 1 );
         //.fx.add( Delay() )
 
-    Gibber.scale.root.seq( ['c4','ab3','bb3'], [4,2,2] );
+    this.setChordSequence(0);
     //Gibber.scale.mode.seq( ['Minor','Mixolydian'], [6,2] )
 
 }
