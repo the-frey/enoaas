@@ -2,12 +2,12 @@ function AjaxRequest(){
   var self = this;
 
   this.update = function(){
-    var promise = $.Deferred();
+    var promise = jQuery.Deferred();
 
-    $.ajax({
+    jQuery.ajax({
       url: '/update_music',
       data: {},
-      type: 'post',
+      type: 'get',
       dataType: 'json',
       beforeSend: function(xhr){
         xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
@@ -48,5 +48,5 @@ $(function(){
   window.eno = window.eno || new Object();
   window.eno.ajax = ajax;
 
-  window.eno.polling = window.setInterval(triggerUpdate, 500);
+  window.eno.polling = window.setInterval(triggerUpdate, 5000);
 });

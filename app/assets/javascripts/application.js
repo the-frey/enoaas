@@ -19,4 +19,3 @@
 //= require music_generator
 //= require sketch
 //= require ajax_polling
-//= require_tree .
