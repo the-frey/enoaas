@@ -79,7 +79,8 @@ class Text
     def average_of_stuff(data)
       if data.len() == 0
         return 0
-      result = 0
+      end
+      result = 0.0
       data.each_with_index do |value, index|
         result += Math.erf((Math::PI/2)*index/data.length())*entry
       end
