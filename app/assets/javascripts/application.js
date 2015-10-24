@@ -13,4 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require gibber.lib.min.js
+//= require music_generator
 //= require_tree .
