@@ -1,5 +1,6 @@
 class Text
   include Mongoid::Document
+  include Mongoid::Timestamps::Created
 
   attr_accessor :sentiment, :chords
 
@@ -36,14 +37,22 @@ class Text
   # returns the tempo
   def tempo
     positive = (analyse_sentiment > 0.5)
-    length = content.length
+    # length = content.length
 
-    bottom_bound = Text.number_within_bounds(60, (analyse_sentiment * 100).round, 100)
-    number = ((length / 2).round + (bottom_bound * 2))
-    upper_bound = 200
+    # bottom_bound = Text.number_within_bounds(60, (analyse_sentiment * 100).round, 100)
+    # number = ((length / 2).round + (bottom_bound * 2))
+    # upper_bound = 200
 
-    tempo_candidate = positive ? Text.number_within_bounds(bottom_bound, number, upper_bound) : Text.number_within_bounds((bottom_bound + Random.rand(bottom_bound)), number, upper_bound)
-    Text.number_within_bounds(bottom_bound, Random.rand(tempo_candidate), upper_bound)
+    # tempo_candidate = positive ? Text.number_within_bounds(bottom_bound, number, upper_bound) : Text.number_within_bounds((bottom_bound + Random.rand(bottom_bound)), number, upper_bound)
+    # Text.number_within_bounds(bottom_bound, Random.rand(tempo_candidate), upper_bound)
+
+    if positive
+      lower_bound = ((analyse_sentiment * 100) * 1.5).round 
+      Text.number_within_bounds(lower_bound, Random.rand(200), 200)
+    else
+      lower_bound = (analyse_sentiment * 100).round
+      Text.number_within_bounds(lower_bound, Random.rand(120), 120)
+    end
   end
 
   class << self
