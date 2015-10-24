@@ -6,6 +6,10 @@ class Text
   field :sender, type: String
   field :content, type: String
 
+  def id_as_string
+    id.to_s
+  end
+
   def analyse_sentiment
     return sentiment unless sentiment.nil?
     sentiment = Sentimentalizer.analyze(content).overall_probability
