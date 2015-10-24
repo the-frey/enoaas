@@ -35,10 +35,11 @@ class Text
     length = content.length
 
     bottom_bound = Text.number_within_bounds(60, (analyse_sentiment * 100).round, 100)
-    tempo_candidate = ((length / 2).round + (bottom_bound * 2))
+    number = ((length / 2).round + (bottom_bound * 2))
     upper_bound = 200
 
-    positive ? Text.number_within_bounds(bottom_bound, tempo_candidate, upper_bound) : Text.number_within_bounds((bottom_bound + Random.rand(bottom_bound)), tempo_candidate, upper_bound)
+    tempo_candidate = positive ? Text.number_within_bounds(bottom_bound, number, upper_bound) : Text.number_within_bounds((bottom_bound + Random.rand(bottom_bound)), number, upper_bound)
+    Text.number_within_bounds(bottom_bound, Random.rand(tempo_candidate), upper_bound)
   end
 
   class << self
