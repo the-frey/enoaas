@@ -29,9 +29,6 @@ class Text
     else
       number.to_s.chars.map(&:to_i).last(3).sum.to_s.chars.map(&:to_i).last
     end
-
-    chords = (number == 0) ? 1 : number
-    chords
   end
 
   # returns the tempo
