@@ -1,6 +1,6 @@
 $(function(){
 
-  window.eno = window.eno || new Object;
+  window.eno = window.eno || new Object();
 
   Gibber.init(); // REQUIRED!
 
