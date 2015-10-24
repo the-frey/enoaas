@@ -58,7 +58,7 @@ class Text
   class << self
 
     def latest
-      Text.desc(:created_at).limit(1).last
+      Text.desc(:created_at).limit(1).first()
     end
 
     def last_but_one
