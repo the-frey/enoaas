@@ -125,7 +125,7 @@ development:
     # use_utc: false
 
 production:
-  sessions:
+  clients:
     default:
       database: enoaas_production
       hosts:
