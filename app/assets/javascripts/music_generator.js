@@ -18,6 +18,10 @@ function Eno() {
 
 }
 
+Eno.prototype.updateDOM = function(data) {
+    console.log("do the thing");
+};
+
 
 
 function setupGibber() {

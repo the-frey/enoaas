@@ -6,6 +6,7 @@ $(function(){
     createCanvas( windowWidth, windowHeight );
 
     window.setupGibber();
+    var ajax = new AjaxRequest(window.eno);
 
     fft = FFT( fftSize );
 

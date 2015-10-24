@@ -1,4 +1,4 @@
-function AjaxRequest(){
+function AjaxRequest(eno){
   var self = this;
 
   this.update = function(){
@@ -24,7 +24,7 @@ function AjaxRequest(){
   }
 
   this.successfulUpdate = function(response){
-    window.eno.updateDOM(response);
+    eno.updateDOM(response);
   };
 
   this.unsuccessfulUpdate = function(message){
@@ -32,21 +32,13 @@ function AjaxRequest(){
     console.log('An error occurred:');
     console.log(message);
   };
+
+  this.polling = window.setInterval(function() {
+      self.update()
+        .then(
+          self.successfulUpdate,
+          self.unsuccessfulUpdate);
+  }, 3000);
+
+
 }
-
-function triggerUpdate(){
-  window.eno.ajax.update()
-    .then(
-      window.eno.ajax.successfulUpdate,
-      window.eno.ajax.unsuccessfulUpdate  
-    );
-}
-
-$(function(){
-  var ajax = new AjaxRequest();
-
-  window.eno = window.eno || new Object();
-  window.eno.ajax = ajax;
-
-  window.eno.polling = window.setInterval(triggerUpdate, 5000);
-});
