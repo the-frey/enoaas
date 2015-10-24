@@ -128,7 +128,6 @@ production:
   clients:
     default:
       uri: <%= ENV['MONGOLAB_URI'] %>
-      database: enoaas_production
       options:
         connect_timeout: 15
 
