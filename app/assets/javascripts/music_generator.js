@@ -1,14 +1,22 @@
 $(function(){
 
+  window.eno = window.eno || new Object;
+
   Gibber.init(); // REQUIRED!
 
-  Gibber.scale.root.seq( ['c4','eb4'], 2);
+  drums = EDrums('x*o*x*o-')
+    drums.amp = .75
 
-  a = Mono('bass').note.seq( [0,7], 1/8 );
+  bass = FM('bass')
+    .note.seq( [0,0,0,7,14,13].rnd(), [1/8,1/16].rnd(1/16,2) )
 
-  b = EDrums('xoxo');
-  b.snare.snappy = 1;
+  rhodes = Synth( 'rhodes', {amp:.35} )
+    .chord.seq( Rndi(0,6,3), 1 )
+    .fx.add( Delay() )
 
-  c = Mono('easyfx').note.seq( Rndi(0,12), [1/4,1/8,1/2,1,2].rnd( 1/8,4 ) );
+  Gibber.scale.root.seq( ['c4','ab3','bb3'], [4,2,2] )
+  Gibber.scale.mode.seq( ['Minor','Mixolydian'], [6,2] )
+
+  window.eno.drums = drums;
 
 });
