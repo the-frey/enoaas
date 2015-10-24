@@ -177,7 +177,7 @@ $(function(){
     var birdSentimentRGB = this.getColourForBin(birdSentimentBin);
 
     fill(birdSentimentRGB);
-    stroke(200);
+    stroke(birdSentimentRGB);
     push();
     translate(this.position.x,this.position.y);
     rotate(theta);
