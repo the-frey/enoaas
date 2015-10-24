@@ -39,12 +39,12 @@ function AjaxRequest(eno){
     console.log(message);
   };
 
-  this.polling = window.setInterval(function() {
-      self.update()
-        .then(
-          self.successfulUpdate,
-          self.unsuccessfulUpdate);
-  }, 3000);
+  // this.polling = window.setInterval(function() {
+  //     self.update()
+  //       .then(
+  //         self.successfulUpdate,
+  //         self.unsuccessfulUpdate);
+  // }, 3000);
 
 
 }

@@ -37,14 +37,6 @@ class Text
   # returns the tempo
   def tempo
     positive = (analyse_sentiment > 0.5)
-    # length = content.length
-
-    # bottom_bound = Text.number_within_bounds(60, (analyse_sentiment * 100).round, 100)
-    # number = ((length / 2).round + (bottom_bound * 2))
-    # upper_bound = 200
-
-    # tempo_candidate = positive ? Text.number_within_bounds(bottom_bound, number, upper_bound) : Text.number_within_bounds((bottom_bound + Random.rand(bottom_bound)), number, upper_bound)
-    # Text.number_within_bounds(bottom_bound, Random.rand(tempo_candidate), upper_bound)
 
     if positive
       lower_bound = ((analyse_sentiment * 100) * 1.5).round 
