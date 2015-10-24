@@ -22,10 +22,10 @@ class TextsController < ApplicationController
 
     content = latest_text.content
     latest_text_id = latest_text.id_as_string
-    sentiment = latest_text.analyse_sentiment
-    content_length = latest_text.content.length
-    chord_progression = latest_text.chord_progression
-    tempo = latest_text.tempo
+    sentiment = Text.analyse_sentiment_history
+    content_length = Text.length_history
+    chord_progression = Text.chord_progression_history
+    tempo = Text.tempo_history
 
     render json: {latest_text_id: latest_text_id, content: content, content_length: content_length, chord_progression: chord_progression, tempo: tempo}.to_json, status: 200, layout: false
   end
