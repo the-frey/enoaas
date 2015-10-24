@@ -48,6 +48,14 @@ class Text
       Text.desc(:created_at).limit(1).first
     end
 
+    def last_but_one
+      Text.desc(:created_at).limit(1).second
+    end
+
+    def last_two
+      [last_but_one, latest]
+    end
+
     def number_within_bounds(bottom_bound, number, upper_bound)
       [bottom_bound, number, upper_bound].sort[1]
     end
