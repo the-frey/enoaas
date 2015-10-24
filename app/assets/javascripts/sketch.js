@@ -1,7 +1,5 @@
 $(function(){
 
-  window.eno = window.eno || new Object;
-
   var fftSize = 32
 
   window.setup = function() {
