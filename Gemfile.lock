@@ -41,6 +41,7 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
     byebug (6.0.2)
+    clockworksms (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -146,6 +147,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  clockworksms
   coffee-rails (~> 4.1.0)
   jbuilder (~> 2.0)
   jquery-rails
