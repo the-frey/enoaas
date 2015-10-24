@@ -1,7 +1,5 @@
 function Eno() {
-    this.sequences = [[1,5,-4,6]];
-
-
+    this.sequences = [ [1,5,-4,6] ];
 
     this.drums = EDrums('x*o*x*o-');
     this.drums.amp = 0.75;
@@ -22,7 +20,9 @@ Eno.prototype.updateDOM = function(data) {
     console.log("do the thing");
 };
 
-
+Eno.prototype.setTempo = function(newTempo) {
+    Clock.bpm = newTempo;
+}
 
 function setupGibber() {
   window.eno = new Eno();
