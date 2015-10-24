@@ -53,4 +53,8 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+
+  post '/text' => 'api#text', as: :text
+
+  root 'compositions#show' 
 end
