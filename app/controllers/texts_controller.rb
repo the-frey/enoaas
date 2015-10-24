@@ -27,7 +27,7 @@ class TextsController < ApplicationController
     chord_progression = Text.chord_progression_history
     tempo = Text.tempo_history
 
-    render json: {latest_text_id: latest_text_id, content: content, content_length: content_length, chord_progression: chord_progression, tempo: tempo}.to_json, status: 200, layout: false
+    render json: {latest_text_id: latest_text_id, sentiment: sentiment, content: content, content_length: content_length, chord_progression: chord_progression, tempo: tempo}.to_json, status: 200, layout: false
   end
 
 end
