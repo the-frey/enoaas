@@ -18,4 +18,5 @@
 //= require p5.gibber.min.js
 //= require music_generator
 //= require sketch
+//= require ajax_polling
 //= require_tree .
