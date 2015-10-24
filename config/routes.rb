@@ -54,7 +54,8 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-  post '/text' => 'api#text', as: :text
+  post '/text' => 'texts#create', as: :create_text
+  get '/update_music' => 'texts#update_music_from_text', as: :update_music
 
   root 'compositions#show' 
 end
