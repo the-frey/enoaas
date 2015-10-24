@@ -1,8 +1,14 @@
 class Text
   include Mongoid::Document
 
+  attr_accessor :sentiment
+
   field :sender, type: String
   field :content, type: String
+
+  def analyse_sentiment
+    sentiment.nil? ? Sentimentalizer.analyze(content).overall_probability : sentiment
+  end
 
   class << self
 
