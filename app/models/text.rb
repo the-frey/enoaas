@@ -63,22 +63,22 @@ class Text
     end
 
     def tempo_history
-      hist = Text.desc(:created_at).limit(5).all().map(&:tempo)
+      hist = Text.desc(:created_at).limit(5).map(&:tempo)
       return average_of_stuff(hist)
     end
 
     def chord_progression_history
-      hist = Text.desc(:created_at).limit(5).all().map(&:chord_progression)
+      hist = Text.desc(:created_at).limit(5).map(&:chord_progression)
       return average_of_stuff(hist)
     end
 
     def analyse_sentiment_history
-      hist = Text.desc(:created_at).limit(5).all().map(&:analyse_sentiment)
+      hist = Text.desc(:created_at).limit(5).map(&:analyse_sentiment)
       return average_of_stuff(hist)
     end
 
     def length_history
-      hist = Text.desc(:created_at).limit(5).all().map{ |a| a.content.length}
+      hist = Text.desc(:created_at).limit(5).map{ |a| a.content.length }
       return average_of_stuff(hist)
     end
 
