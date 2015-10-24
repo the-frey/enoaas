@@ -5,6 +5,8 @@ class TextsController < ApplicationController
     sender = params[:from]
     content = params[:content]
 
+    sender = sender.remove(' ')
+
     text = Text.create(sender: sender, content: content)
 
     if text

@@ -4,8 +4,9 @@ class CompositionsController < ApplicationController
     text_to_use = Text.latest
 
     @sentiment = text_to_use.analyse_sentiment
-    @content = text_to_use.content
-    @sender = text_to_use.sender
+    @content_length = text_to_use.content.length
+    @chord_progression = text_to_use.chord_progression
+    @tempo = text_to_use.tempo
   end
 
 end
