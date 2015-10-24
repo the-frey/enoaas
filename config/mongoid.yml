@@ -127,10 +127,9 @@ development:
 production:
   clients:
     default:
-      database: enoaas_production
-      hosts:
-        - localhost:27017
+      uri: <%= ENV['MONGOLAB_URI'] %>
       options:
+        connect_timeout: 15
 
 test:
   clients:

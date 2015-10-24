@@ -5,7 +5,7 @@ class TextsController < ApplicationController
     sender = params[:from]
     content = params[:content]
 
-    sender = sender.remove(' ')
+    sender = sender.remove(' ') rescue nil
 
     text = Text.create(sender: sender, content: content)
 
@@ -21,9 +21,13 @@ class TextsController < ApplicationController
     latest_text = Text.latest
 
     content = latest_text.content
-    id = latest_text.id
+    latest_text_id = latest_text.id_as_string
+    sentiment = Text.analyse_sentiment_history
+    content_length = Text.length_history
+    chord_progression = Text.chord_progression_history
+    tempo = Text.tempo_history
 
-    render json: {id: id, content: content}.to_json, status: 200, layout: false
+    render json: {latest_text_id: latest_text_id, sentiment: sentiment, content: content, content_length: content_length, chord_progression: chord_progression, tempo: tempo}.to_json, status: 200, layout: false
   end
 
 end

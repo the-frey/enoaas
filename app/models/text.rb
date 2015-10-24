@@ -6,6 +6,10 @@ class Text
   field :sender, type: String
   field :content, type: String
 
+  def id_as_string
+    id.to_s
+  end
+
   def analyse_sentiment
     return sentiment unless sentiment.nil?
     sentiment = Sentimentalizer.analyze(content).overall_probability
@@ -45,7 +49,11 @@ class Text
   class << self
 
     def latest
-      Text.desc(:created_at).limit(1).first
+      Text.desc(:created_at).limit(1).last
+    end
+
+    def last_but_one
+      Text.desc(:created_at).limit(2).all()[1]
     end
 
     def last_but_one
@@ -60,6 +68,37 @@ class Text
       [bottom_bound, number, upper_bound].sort[1]
     end
 
+    def tempo_history
+      hist = Text.desc(:created_at).limit(5).all().map(&:tempo)
+      return average_of_stuff(hist)
+    end
+
+    def chord_progression_history
+      hist = Text.desc(:created_at).limit(5).all().map(&:chord_progression)
+      return average_of_stuff(hist)
+    end
+
+    def analyse_sentiment_history
+      hist = Text.desc(:created_at).limit(5).all().map(&:analyse_sentiment)
+      return average_of_stuff(hist)
+    end
+
+    def length_history
+      hist = Text.desc(:created_at).limit(5).all().map{ |a| a.content.length}
+      return average_of_stuff(hist)
+    end
+
+    def average_of_stuff(data)
+      if data.length() == 0
+        return 0
+      end
+      result = 0.0
+      data.each_with_index do |value, index|
+        result += Math.erf((Math::PI/2)*index/data.length())*value
+      end
+      result = result/(data.length()*(Math::PI**(3.0/2) * Math.erf(Math::PI/2.0) -2 +2*Math::E**(-(Math::PI**2)/4.0))/(2*Math::PI**(1.0/2)))
+      return result
+    end
   end
 
 end
