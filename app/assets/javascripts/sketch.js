@@ -1,13 +1,12 @@
 $(function(){
 
-  window.eno = window.eno || new Object;
-
   var fftSize = 32
 
   window.setup = function() {
     createCanvas( windowWidth, windowHeight );
 
     window.setupGibber();
+    var ajax = new AjaxRequest(window.eno);
 
     fft = FFT( fftSize );
 
