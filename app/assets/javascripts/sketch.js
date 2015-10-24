@@ -7,7 +7,7 @@ $(function(){
   window.setup = function() {
     createCanvas( windowWidth, windowHeight );
 
-    window.eno.drums;
+    window.setupGibber();
 
     fft = FFT( fftSize );
 
@@ -28,7 +28,7 @@ $(function(){
       fill( barColor );
 
       // read FFT value, which ranges from 0-255, and scale it.
-      value = ( fft[ i ] / 255 ) * widthr;
+      value = ( fft[ i ] / 255 ) * width;
 
       rect( 0, barHeight * i, value, barHeight );
     }
