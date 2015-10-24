@@ -54,10 +54,6 @@ class Text
       Text.desc(:created_at).limit(2).all()[1]
     end
 
-    def last_but_one
-      Text.desc(:created_at).limit(1).second
-    end
-
     def last_two
       [last_but_one, latest]
     end
@@ -91,10 +87,10 @@ class Text
         return 0
       end
       result = 0.0
-      data.each_with_index do |value, index|
-        result += Math.erf((Math::PI/2)*index/data.length())*value
+      data.reverse.each_with_index do |value, index|
+        result += Math.erf((Math::PI/2.0)*1.0*index/data.length())*value
       end
-      result = result/(data.length()*(1.0131077))
+      result =Math::PI/2*result/(data.length()*(1.0131077))
       return result
     end
   end
