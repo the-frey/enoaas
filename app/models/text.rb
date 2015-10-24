@@ -1,5 +1,6 @@
 class Text
   include Mongoid::Document
+  include Mongoid::Timestamps::Created
 
   attr_accessor :sentiment, :chords
 
@@ -36,20 +37,28 @@ class Text
   # returns the tempo
   def tempo
     positive = (analyse_sentiment > 0.5)
-    length = content.length
+    # length = content.length
 
-    bottom_bound = Text.number_within_bounds(60, (analyse_sentiment * 100).round, 100)
-    number = ((length / 2).round + (bottom_bound * 2))
-    upper_bound = 200
+    # bottom_bound = Text.number_within_bounds(60, (analyse_sentiment * 100).round, 100)
+    # number = ((length / 2).round + (bottom_bound * 2))
+    # upper_bound = 200
 
-    tempo_candidate = positive ? Text.number_within_bounds(bottom_bound, number, upper_bound) : Text.number_within_bounds((bottom_bound + Random.rand(bottom_bound)), number, upper_bound)
-    Text.number_within_bounds(bottom_bound, Random.rand(tempo_candidate), upper_bound)
+    # tempo_candidate = positive ? Text.number_within_bounds(bottom_bound, number, upper_bound) : Text.number_within_bounds((bottom_bound + Random.rand(bottom_bound)), number, upper_bound)
+    # Text.number_within_bounds(bottom_bound, Random.rand(tempo_candidate), upper_bound)
+
+    if positive
+      lower_bound = ((analyse_sentiment * 100) * 1.5).round 
+      Text.number_within_bounds(lower_bound, Random.rand(200), 200)
+    else
+      lower_bound = (analyse_sentiment * 100).round
+      Text.number_within_bounds(lower_bound, Random.rand(120), 120)
+    end
   end
 
   class << self
 
     def latest
-      Text.desc(:created_at).limit(1).last
+      Text.desc(:created_at).limit(1).first()
     end
 
     def last_but_one
@@ -96,7 +105,7 @@ class Text
       data.each_with_index do |value, index|
         result += Math.erf((Math::PI/2)*index/data.length())*value
       end
-      result = result/(data.length()*(Math::PI**(3.0/2) * Math.erf(Math::PI/2.0) -2 +2*Math::E**(-(Math::PI**2)/4.0))/(2*Math::PI**(1.0/2)))
+      result = result/(data.length()*(1.0131077))
       return result
     end
   end

@@ -42,8 +42,31 @@ function Eno() {
 
 }
 
-Eno.prototype.updateDOM = function(data) {
-    console.log("do the thing");
+Eno.prototype.updateVars = function(data){
+    this.setTempo(data.tempo);
+
+    window.eno.vars.sentiment = data.sentiment;
+    window.eno.vars.contentLength = data.content_length;
+    window.eno.vars.chordProgression = data.chord_progression;
+    window.eno.vars.tempo = data.tempo;
+}
+
+Eno.prototype.updateVis = function(data) {
+    console.log('New data received!');
+    console.log(data);
+    var currentFlockSize = window.eno.flock.birds.length;
+    var newFlockSize = Math.floor(data.tempo / 2);
+
+    if (newFlockSize > currentFlockSize) {
+        var numberOfBirdsToAdd = (newFlockSize - currentFlockSize);
+        window.eno.flock.addNBirds(numberOfBirdsToAdd);
+    } else {
+        var numberOfBirdsToRemove = (currentFlockSize - newFlockSize);
+        window.eno.flock.removeNBirds(numberOfBirdsToRemove);
+    }
+
+    this.updateVars(data)
+    console.log('Data updated!');
 };
 
 Eno.prototype.setTempo = function(newTempo) {

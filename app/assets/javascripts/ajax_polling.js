@@ -28,7 +28,8 @@ function AjaxRequest(eno){
       // we already have it on page
       console.log('Already running on latest Text record.');
     } else {
-      eno.updateDOM(response);
+      eno.updateVis(response);
+      $('#bootstrap-music').data('currentTextId', response.latest_text_id);
     }
   };
 
