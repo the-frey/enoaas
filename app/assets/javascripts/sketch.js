@@ -108,7 +108,7 @@ $(function(){
     this.velocity = createVector(random(-1,1),random(-1,1));
     this.position = createVector(x,y);
     this.r = 3.0;
-    this.maxspeed = Math.floor(Math.sqrt(window.eno.vars.tempo));    // Maximum speed
+    this.maxspeed = Math.floor((window.eno.vars.sentiment > 0.5) ? Math.sqrt(window.eno.vars.tempo) : Math.sqrt(Math.sqrt(window.eno.vars.tempo)));    // Maximum speed
     this.maxforce = 0.05; // Maximum steering force
   }
 
