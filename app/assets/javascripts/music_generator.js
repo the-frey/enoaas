@@ -46,6 +46,9 @@ Eno.prototype.updateVars = function(data){
 Eno.prototype.updateVis = function(data) {
     console.log('New data received!');
     console.log(data);
+    this.updateVars(data)
+    console.log('Data updated!');
+
     var currentFlockSize = window.eno.flock.birds.length;
     var newFlockSize = Math.floor(data.tempo / 2);
 
@@ -56,9 +59,6 @@ Eno.prototype.updateVis = function(data) {
         var numberOfBirdsToRemove = (currentFlockSize - newFlockSize);
         window.eno.flock.removeNBirds(numberOfBirdsToRemove);
     }
-
-    this.updateVars(data)
-    console.log('Data updated!');
 };
 
 Eno.prototype.setTempo = function(newTempo) {
