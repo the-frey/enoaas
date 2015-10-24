@@ -4,7 +4,7 @@ $(function(){
 
   var fftSize = 32
 
-  function setup() {
+  window.setup = function() {
     createCanvas( windowWidth, windowHeight )
 
     window.eno.drums;
@@ -15,17 +15,17 @@ $(function(){
     colorMode( HSB, 255 )
   }
 
-  function draw() {
+  window.draw = function() {
     background( 64 )
 
     var numBars = fftSize / 2,
         barHeight = ( height - 1 ) / numBars,
-        barColor = null, 
+        barColor = null,
         value = null
 
     for( var i = 0; i < numBars; i++ ) {
       barColor = color( ( i / numBars ) * 255, 255, 255 )
-      fill( barColor ) 
+      fill( barColor )
 
       // read FFT value, which ranges from 0-255, and scale it.
       value = ( fft[ i ] / 255 ) * width
