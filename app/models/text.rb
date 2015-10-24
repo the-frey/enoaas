@@ -45,7 +45,11 @@ class Text
   class << self
 
     def latest
-      Text.desc(:created_at).limit(1).first
+      Text.desc(:created_at).limit(1).last
+    end
+
+    def last_but_one
+      Text.desc(:created_at).limit(2).all()[1]
     end
 
     def number_within_bounds(bottom_bound, number, upper_bound)
