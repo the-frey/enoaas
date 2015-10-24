@@ -50,7 +50,7 @@ class Text
   class << self
 
     def latest
-      Text.desc(:created_at).limit(1).last
+      Text.desc(:created_at).limit(1).first()
     end
 
     def last_but_one
@@ -97,7 +97,7 @@ class Text
       data.each_with_index do |value, index|
         result += Math.erf((Math::PI/2)*index/data.length())*value
       end
-      result = result/(data.length()*(Math::PI**(3.0/2) * Math.erf(Math::PI/2.0) -2 +2*Math::E**(-(Math::PI**2)/4.0))/(2*Math::PI**(1.0/2)))
+      result = result/(data.length()*(1.0131077))
       return result
     end
   end
