@@ -35,17 +35,25 @@ function Eno() {
     this.snare = EDrums('..o...o.');
     this.snare.amp = 0;
 
-    //this.bass = Mono('bass').note.seq([0,0,0,0,4].rnd(), 1/8);
+    this.bass = FM('bass', {amp:.5});
+    this.lead = FM('stabs', {amp:.4, decay: 5000} );
+    this.keys = Synth( 'bleep', {amp:.2, decay: 80000} );
 
-    this.keys = Synth( 'rhodes', {amp:.5} );
+    this.bassDistortion = Distortion(0);
+    this.bass.fx.add(this.bassDistortion);
+
+    this.setSenderNumber(this.vars.sender);
     this.setChordSequence(this.vars.chordProgression);
     this.setDrumSequence(0);
-    //this.lead = Mono('easy').note.seq([0,7,7,5,7,1,1,5,6,6,6].rnd(), [1/8,1/4].rnd());
     this.setSentiment(this.vars.sentiment);
 }
 
 Eno.prototype.updateVars = function(data){
     this.setTempo(data.tempo);
+    this.setCordProgression(data.chord_progression);
+    this.setSentiment(data.sentiment);
+    this.setSenderNumber(data.sender);
+    this.setContentLength(data.content_length);
 
     window.eno.vars.sentiment = data.sentiment;
     window.eno.vars.contentLength = data.content_length;
@@ -100,34 +108,55 @@ Eno.prototype.setChordSequence = function(number) {
     console.log(roots);
     console.log(sequence);
 
-    // this monstrostity creates an array of 1s the length of the sequence
-    //changes = Array.apply(null, Array(numerical.length)).map(Number.prototype.valueOf, 1); // need to change this to be more interesting
-    changes = [];
     var senderdigits = this.vars.sender.substr(this.vars.sender.length - sequence.length,
                                                 this.vars.sender.length);
     changes = senderdigits.split("").map(function(digit) {
-                if (digit < 4) return (1/4);
-                if (digit < 7) return (1/2);
-                return 1;
+                if (digit < 4) return (1/2);
+                if (digit < 7) return (1);
+                return 2;
     });
 
-    console.log(changes);
-
-
-    Gibber.scale.root.seq(roots, changes);
+    Gibber.scale.root(self.key);
+    //Gibber.scale.root.seq(roots, changes);
     this.keys.chord.seq(sequence, changes);
 };
 
 Eno.prototype.setSentiment = function(number) {
     // set the mode
     Gibber.scale.mode = this.modes[Math.floor(number * 7)];
+    // tweak the keys
+    var keysWaveform = "Saw";
+    if(number < 0.2) keysWaveform = "Square";
+    if(number < 0.6) keysWaveform = "Triangle";
+    if(number > 0.8) keysWaveform = "Sine";
+    this.keys.waveform = keysWaveform;
+
     // tweak the lead
 
     // tweak the bass
 }
 
+Eno.prototype.setContentLength = function(length) {
+    var maxLength = 160;
+    if (length < maxLength/3) {
+        this.setDrumSequence(0);
+    }
+    else if (length < 2*maxLength/3) {
+        this.setDrumSequence(1);
+    }
+    else {
+        this.setDrumSequence(2);
+    }
+}
+
+Eno.prototype.setSenderNumber = function(number) {
+    var numberAsIntArray = number.split("").map(function(x) { return parseInt(x); });
+    this.bass.note.seq(numberAsIntArray.rnd(), [1/8,1/16].rnd(1/16,2));
+    this.lead.note.seq(numberAsIntArray.map(function(x) { return x*2 + 7; }).rnd(), [1/16,1/8].rnd());
+}
+
 Eno.prototype.setDrumSequence = function(number) {
-    amps = this.drumSequences[number];
+    var amps = this.drumSequences[number];
     this.kick.amp = amps.kick;
     this.hat.amp = amps.hat;
     this.snare.amp = amps.snare;
