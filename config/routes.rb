@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   #   end
 
   post '/text' => 'texts#create', as: :create_text
+  post '/text_slack' => 'texts#create_slack', as: :create_slack
   get '/update_music' => 'texts#update_music_from_text', as: :update_music
 
   root 'compositions#show' 

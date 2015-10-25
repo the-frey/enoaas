@@ -18,6 +18,24 @@ class TextsController < ApplicationController
     end
   end
 
+
+  # receives texts from slack
+  def create_slack
+    sender = params[:user_id]
+    content = params[:text]
+
+    sender = sender.remove(' ') rescue nil
+    sender = sender.remove('U') rescue nil
+
+    text = Text.create(sender: sender, content: content)
+
+    if text
+      render text: "#{content}", status: 200, layout: false
+    else
+      render text: "Sorry, something went wrong.", status: 500, layout: false
+    end
+  end
+
   # receives ajax calls from frontend
   def update_music_from_text
     latest_text = Text.latest
