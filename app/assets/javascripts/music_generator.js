@@ -16,9 +16,9 @@ function Eno() {
                     G:["g","a","b","c","d","e","fs"]
     };
 
-    this.drumSequences = [{kick: 0.75, hat: 0, snare:0},
-                          {kick: 0.75, hat: 0.5, snare:0},
-                          {kick: 0.75, hat: 0.5, snare:0.5}];
+    this.drumSequences = [{kick: 4, hat: 0, snare:0},
+                          {kick: 4, hat: 1, snare:0},
+                          {kick: 4, hat: 1, snare:2}];
 
     this.vars = window.getUserVars();
 
@@ -49,15 +49,17 @@ function Eno() {
 }
 
 Eno.prototype.updateVars = function(data){
+    var chordSeq = Math.round(data.chord_progression);
+
     this.setTempo(data.tempo);
-    this.setCordProgression(data.chord_progression);
+    this.setChordSequence(chordSeq);
     this.setSentiment(data.sentiment);
     this.setSenderNumber(data.sender);
     this.setContentLength(data.content_length);
 
     window.eno.vars.sentiment = data.sentiment;
     window.eno.vars.contentLength = data.content_length;
-    window.eno.vars.chordProgression = data.chord_progression;
+    window.eno.vars.chordProgression = chordSeq;
     window.eno.vars.tempo = data.tempo;
 }
 
@@ -121,23 +123,28 @@ Eno.prototype.setChordSequence = function(number) {
     this.keys.chord.seq(sequence, changes);
 };
 
-Eno.prototype.setSentiment = function(number) {
+Eno.prototype.setSentiment = function(sentiment) {
     // set the mode
-    Gibber.scale.mode = this.modes[Math.floor(number * 7)];
+    Gibber.scale.mode = this.modes[Math.floor(sentiment * 7)];
     // tweak the keys
     var keysWaveform = "Saw";
-    if(number < 0.2) keysWaveform = "Square";
-    if(number < 0.6) keysWaveform = "Triangle";
-    if(number > 0.8) keysWaveform = "Sine";
+    if(sentiment < 0.3) keysWaveform = "Noise";
+    if(sentiment < 0.5) keysWaveform = "Square";
+    else if(sentiment > 0.8) keysWaveform = "Sine";
     this.keys.waveform = keysWaveform;
+    this.keys.amp = 0.2 * sentiment * sentiment;
 
     // tweak the lead
+    this.lead.fx.remove();
+    this.lead.fx.add(Crush({bitDepth:sentiment*16, sampleRate:sentiment}));
 
     // tweak the bass
+    this.bass.fx.remove();
+    this.bass.fx.add(Distortion((1-sentiment) * 20))
 }
 
 Eno.prototype.setContentLength = function(length) {
-    var maxLength = 160;
+    var maxLength = 80;
     if (length < maxLength/3) {
         this.setDrumSequence(0);
     }

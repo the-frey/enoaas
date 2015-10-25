@@ -12,7 +12,7 @@ $(function(){
     vars.contentLength = parseInt($('#bootstrap-music').data('contentLength')) || 0;
     vars.chordProgression = parseInt($('#bootstrap-music').data('chordProgression')) || 0;
     vars.tempo = $('#bootstrap-music').data('tempo') || 120;
-    vars.sender = $('#bootstrap-music').data('sender') || "447757112646";
+    vars.sender = $('#bootstrap-music').data('sender').toString() || "447757112646";
 
     return vars;
   }
