@@ -30,6 +30,7 @@ function AjaxRequest(eno){
     } else {
       eno.updateVis(response);
       $('#bootstrap-music').data('currentTextId', response.latest_text_id);
+      $('#eno-text .replace-text').html(response.content);
     }
   };
 

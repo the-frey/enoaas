@@ -13,3 +13,23 @@
  *= require_tree .
  *= require_self
  */
+
+ body {
+  margin:0;
+  padding:0;
+ }
+
+.eno-main {
+  clear:both;
+  width:100%;
+}
+
+#eno-text {
+  position:absolute;
+  top:50px;
+  left:100px;
+  width:180px;
+  h1 {
+    color:#FAFAFA;
+  }
+}
