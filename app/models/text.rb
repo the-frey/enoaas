@@ -13,7 +13,10 @@ class Text
 
   def analyse_sentiment
     return sentiment unless sentiment.nil?
-    sentiment = Sentimentalizer.analyze(content).overall_probability
+    sentiment = Sentimentalizer.analyze(content).overall_probability rescue nil
+    if sentiment.nil?
+      sentiment = 0
+    end
     sentiment
   end
 
