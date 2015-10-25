@@ -27,10 +27,11 @@ function AjaxRequest(eno){
     if($('#bootstrap-music').data('currentTextId') === response.latest_text_id) {
       // we already have it on page
       console.log('Already running on latest Text record.');
+      self.updateText(response.quote);
     } else {
       eno.updateVis(response);
       $('#bootstrap-music').data('currentTextId', response.latest_text_id);
-      $('#eno-text .replace-text').html(response.content);
+      self.updateText(response.content);
     }
   };
 
@@ -39,6 +40,10 @@ function AjaxRequest(eno){
     console.log('An error occurred:');
     console.log(message);
   };
+
+  this.updateText = function(newText){
+    $('#eno-text .replace-text').html(newText);
+  }
 
   this.polling = window.setInterval(function() {
       self.update()

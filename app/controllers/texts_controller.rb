@@ -18,7 +18,6 @@ class TextsController < ApplicationController
     end
   end
 
-
   # receives texts from slack
   def create_slack
     sender = params[:user_id]
@@ -48,7 +47,9 @@ class TextsController < ApplicationController
     chord_progression = Text.chord_progression_history
     tempo = Text.tempo_history
 
-    render json: {sender: sender, content: content, latest_text_id: latest_text_id, sentiment: sentiment, content_length: content_length, chord_progression: chord_progression, tempo: tempo}.to_json, status: 200, layout: false
+    quote = EnoQuotes.get_quote
+
+    render json: {sender: sender, content: content, latest_text_id: latest_text_id, sentiment: sentiment, content_length: content_length, chord_progression: chord_progression, tempo: tempo, quote: quote}.to_json, status: 200, layout: false
   end
 
 end
