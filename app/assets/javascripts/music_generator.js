@@ -21,6 +21,8 @@ function Eno() {
                           {kick: 4, hat: 1, snare:2}];
 
     this.vars = window.getUserVars();
+    console.log("starting vars");
+    console.log(this.vars);
 
     // ranked roughly in order of sentiment
     this.modes = ['Aeolian', 'Locrian', 'Phrygian', 'Mixolydian', 'Dorian', 'Lydian', 'Ionian'];
@@ -39,13 +41,11 @@ function Eno() {
     this.lead = FM('stabs', {amp:.4, decay: 5000} );
     this.keys = Synth( 'bleep', {amp:.2, decay: 80000} );
 
-    this.bassDistortion = Distortion(0);
-    this.bass.fx.add(this.bassDistortion);
-
+    this.setContentLength(this.vars.contentLength);
     this.setSenderNumber(this.vars.sender);
     this.setChordSequence(this.vars.chordProgression);
-    this.setDrumSequence(0);
     this.setSentiment(this.vars.sentiment);
+    this.setTempo(this.vars.tempo);
 
     this.follow = Follow(this.kick)
 }
@@ -59,10 +59,11 @@ Eno.prototype.updateVars = function(data){
     this.setSenderNumber(data.sender);
     this.setContentLength(data.content_length);
 
-    window.eno.vars.sentiment = data.sentiment;
-    window.eno.vars.contentLength = data.content_length;
-    window.eno.vars.chordProgression = chordSeq;
-    window.eno.vars.tempo = data.tempo;
+    this.vars.tempo = data.tempo;
+    this.vars.sentiment = data.sentiment;
+    this.vars.contentLength = data.content_length;
+    this.vars.chordProgression = chordSeq;
+    this.vars.tempo = data.tempo;
 }
 
 Eno.prototype.updateVis = function(data) {
@@ -134,11 +135,14 @@ Eno.prototype.setSentiment = function(sentiment) {
     if(sentiment < 0.5) keysWaveform = "Square";
     else if(sentiment > 0.8) keysWaveform = "Sine";
     this.keys.waveform = keysWaveform;
-    this.keys.amp = 0.2 * sentiment * sentiment;
+    this.keys.amp = sentiment < 0.2 ? 0 : 0.3 * sentiment;
 
     // tweak the lead
     this.lead.fx.remove();
-    this.lead.fx.add(Crush({bitDepth:sentiment*16, sampleRate:sentiment}));
+    if(sentiment < 0.5) {
+        this.lead.fx.add(Crush({bitDepth:sentiment*16, sampleRate:sentiment}));
+    }
+    this.lead.decay(30000*sentiment);
 
     // tweak the bass
     this.bass.fx.remove();

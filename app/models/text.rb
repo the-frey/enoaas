@@ -47,6 +47,11 @@ class Text
     end
   end
 
+  #returns the users number scrambled
+  def scramble_sender
+      return sender.split("").shuffle.join
+  end
+
   class << self
 
     def latest
