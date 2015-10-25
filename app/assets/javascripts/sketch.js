@@ -32,7 +32,7 @@ $(function(){
     // fft = FFT( fftSize );
 
     // noStroke();
-    // colorMode( HSB, 255 );
+    //colorMode(HSB);
 
     flock = new Flock();
     // Add an initial set of birds into the system
@@ -85,7 +85,7 @@ $(function(){
 
   Flock.prototype.run = function() {
     for (var i = 0; i < this.birds.length; i++) {
-      this.birds[i].run(this.birds);  // Passing the entire list of birds to each boid individually
+      this.birds[i].run(this.birds);  // Passing the entire list of birds to each bird individually
     }
   }
 
@@ -116,7 +116,7 @@ $(function(){
     this.velocity = createVector(random(-1,1),random(-1,1));
     this.position = createVector(x,y);
     this.r = 3.0;
-    this.maxspeed = Math.floor(Math.sqrt(window.eno.vars.tempo));    // Maximum speed
+    this.maxspeed = Math.floor((window.eno.vars.sentiment > 0.5) ? Math.sqrt(window.eno.vars.tempo) : Math.sqrt(Math.sqrt(window.eno.vars.tempo)));    // Maximum speed
     this.maxforce = 0.05; // Maximum steering force
   }
 
@@ -171,12 +171,21 @@ $(function(){
     return steer;
   }
 
+  Bird.prototype.getColourForBin = function(n){
+    var binValues = ['#d73027','#f46d43','#fdae61','#fee090','#ffffbf','#e0f3f8','#abd9e9','#74add1','#4575b4'];
+    return binValues[n];
+  }
+
   Bird.prototype.render = function() {
     // Draw a triangle rotated in the direction of velocity
     var theta = this.velocity.heading() + radians(90);
-    var birdSentiment = Math.floor(window.eno.vars.sentiment * 130);
-    fill(birdSentiment);
-    stroke(200);
+
+    //bin bird sentiment then get colour
+    var birdSentimentBin = Math.floor(window.eno.vars.sentiment * 10);
+    var birdSentimentRGB = this.getColourForBin(birdSentimentBin);
+
+    fill(birdSentimentRGB);
+    stroke(birdSentimentRGB);
     push();
     translate(this.position.x,this.position.y);
     rotate(theta);

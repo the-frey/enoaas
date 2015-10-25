@@ -44,7 +44,7 @@ function AjaxRequest(eno){
         .then(
           self.successfulUpdate,
           self.unsuccessfulUpdate);
-  }, 3000);
+  }, 30000);
 
 
 }

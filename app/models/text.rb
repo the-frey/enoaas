@@ -29,22 +29,11 @@ class Text
     else
       number.to_s.chars.map(&:to_i).last(3).sum.to_s.chars.map(&:to_i).last
     end
-
-    chords = (number == 0) ? 1 : number
-    chords
   end
 
   # returns the tempo
   def tempo
     positive = (analyse_sentiment > 0.5)
-    # length = content.length
-
-    # bottom_bound = Text.number_within_bounds(60, (analyse_sentiment * 100).round, 100)
-    # number = ((length / 2).round + (bottom_bound * 2))
-    # upper_bound = 200
-
-    # tempo_candidate = positive ? Text.number_within_bounds(bottom_bound, number, upper_bound) : Text.number_within_bounds((bottom_bound + Random.rand(bottom_bound)), number, upper_bound)
-    # Text.number_within_bounds(bottom_bound, Random.rand(tempo_candidate), upper_bound)
 
     if positive
       lower_bound = ((analyse_sentiment * 100) * 1.5).round 
@@ -65,10 +54,6 @@ class Text
       Text.desc(:created_at).limit(2).all()[1]
     end
 
-    def last_but_one
-      Text.desc(:created_at).limit(1).second
-    end
-
     def last_two
       [last_but_one, latest]
     end
@@ -78,22 +63,22 @@ class Text
     end
 
     def tempo_history
-      hist = Text.desc(:created_at).limit(5).all().map(&:tempo)
+      hist = Text.desc(:created_at).limit(5).map(&:tempo)
       return average_of_stuff(hist)
     end
 
     def chord_progression_history
-      hist = Text.desc(:created_at).limit(5).all().map(&:chord_progression)
+      hist = Text.desc(:created_at).limit(5).map(&:chord_progression)
       return average_of_stuff(hist)
     end
 
     def analyse_sentiment_history
-      hist = Text.desc(:created_at).limit(5).all().map(&:analyse_sentiment)
+      hist = Text.desc(:created_at).limit(5).map(&:analyse_sentiment)
       return average_of_stuff(hist)
     end
 
     def length_history
-      hist = Text.desc(:created_at).limit(5).all().map{ |a| a.content.length}
+      hist = Text.desc(:created_at).limit(5).map{ |a| a.content.length }
       return average_of_stuff(hist)
     end
 
@@ -102,10 +87,13 @@ class Text
         return 0
       end
       result = 0.0
-      data.each_with_index do |value, index|
-        result += Math.erf((Math::PI/2)*index/data.length())*value
+      weights = 0.0
+      data.reverse.each_with_index do |value, index|
+        weight = Math.erf((Math::PI/2.0)*1.0*index/data.length())
+        result += weight*value
+        weights += weight
       end
-      result = result/(data.length()*(1.0131077))
+      result = result/(weights)
       return result
     end
   end

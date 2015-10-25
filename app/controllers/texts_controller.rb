@@ -1,5 +1,7 @@
 class TextsController < ApplicationController
 
+  skip_before_filter :verify_authenticity_token, except: [:update_music_from_text]
+
   # receives texts from clockwork
   def create
     sender = params[:from]
@@ -20,6 +22,7 @@ class TextsController < ApplicationController
   def update_music_from_text
     latest_text = Text.latest
 
+    sender = latest_text.sender
     content = latest_text.content
     latest_text_id = latest_text.id_as_string
     sentiment = Text.analyse_sentiment_history
@@ -27,7 +30,7 @@ class TextsController < ApplicationController
     chord_progression = Text.chord_progression_history
     tempo = Text.tempo_history
 
-    render json: {latest_text_id: latest_text_id, sentiment: sentiment, content: content, content_length: content_length, chord_progression: chord_progression, tempo: tempo}.to_json, status: 200, layout: false
+    render json: {sender: sender, content: content, latest_text_id: latest_text_id, sentiment: sentiment, content_length: content_length, chord_progression: chord_progression, tempo: tempo}.to_json, status: 200, layout: false
   end
 
 end
