@@ -8,15 +8,11 @@ $(function(){
   window.getUserVars = function() {
     // grab variables from page layout
     var vars = {};
-    vars.sentiment = $('#bootstrap-music').data('sentiment');
-    vars.contentLength = $('#bootstrap-music').data('contentLength');
-    vars.chordProgression = $('#bootstrap-music').data('chordProgression');
-    vars.tempo = $('#bootstrap-music').data('tempo');
-    vars.sender = $('#bootstrap-music').data('sender');
-
-    // store the canvas width and height so we can init birds later
-    vars.windowWidth = windowWidth;
-    vars.windowHeight = windowHeight;
+    vars.sentiment = $('#bootstrap-music').data('sentiment') || 0.5;
+    vars.contentLength = parseInt($('#bootstrap-music').data('contentLength')) || 0;
+    vars.chordProgression = parseInt($('#bootstrap-music').data('chordProgression')) || 0;
+    vars.tempo = $('#bootstrap-music').data('tempo') || 120;
+    vars.sender = $('#bootstrap-music').data('sender') || "447757112646";
 
     return vars;
   }
@@ -27,6 +23,10 @@ $(function(){
     window.setupGibber();
     var ajax = new AjaxRequest(window.eno);
 
+
+    // store the canvas width and height so we can init birds later
+    eno.vars.windowWidth = windowWidth;
+    eno.vars.windowHeight = windowHeight;
 
 
     // fft = FFT( fftSize );

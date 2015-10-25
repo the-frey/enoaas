@@ -38,10 +38,10 @@ function Eno() {
     //this.bass = Mono('bass').note.seq([0,0,0,0,4].rnd(), 1/8);
 
     this.keys = Synth( 'rhodes', {amp:.5} );
-    this.setChordSequence(0);
+    this.setChordSequence(this.vars.chordProgression);
     this.setDrumSequence(0);
     //this.lead = Mono('easy').note.seq([0,7,7,5,7,1,1,5,6,6,6].rnd(), [1/8,1/4].rnd());
-    this.setSentiment(0.5);
+    this.setSentiment(this.vars.sentiment);
 }
 
 Eno.prototype.updateVars = function(data){
@@ -103,9 +103,14 @@ Eno.prototype.setChordSequence = function(number) {
     // this monstrostity creates an array of 1s the length of the sequence
     //changes = Array.apply(null, Array(numerical.length)).map(Number.prototype.valueOf, 1); // need to change this to be more interesting
     changes = [];
-    for(i=0; i<sequence.length; i++) {
-        changes.push([1/4,1/2,1][Math.floor(random() * 4)]);
-    }
+    var senderdigits = this.vars.sender.substr(this.vars.sender.length - sequence.length,
+                                                this.vars.sender.length);
+    changes = senderdigits.split("").map(function(digit) {
+                if (digit < 4) return (1/4);
+                if (digit < 7) return (1/2);
+                return 1;
+    });
+
     console.log(changes);
 
 
