@@ -66,7 +66,10 @@ $(function(){
 
   window.draw = function() {
     background(51);
+    strokeWeight( window.eno.follow.getValue() )
+
     flock.run();
+
   }
 
   // Original code --
