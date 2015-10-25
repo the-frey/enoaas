@@ -46,6 +46,8 @@ function Eno() {
     this.setChordSequence(this.vars.chordProgression);
     this.setSentiment(this.vars.sentiment);
     this.setTempo(this.vars.tempo);
+
+    this.follow = Follow(this.kick)
 }
 
 Eno.prototype.updateVars = function(data){
