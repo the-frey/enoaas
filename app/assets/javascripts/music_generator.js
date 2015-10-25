@@ -16,12 +16,17 @@ function Eno() {
                     G:["g","a","b","c","d","e","fs"]
     };
 
-    this.key = "C";
-    this.pitch = 3;
-
     this.drumSequences = [{kick: 0.75, hat: 0, snare:0},
                           {kick: 0.75, hat: 0.5, snare:0},
                           {kick: 0.75, hat: 0.5, snare:0.5}];
+
+    this.vars = window.getUserVars();
+
+    // ranked roughly in order of sentiment
+    this.modes = ['Aeolian', 'Locrian', 'Phrygian', 'Mixolydian', 'Dorian', 'Lydian', 'Ionian'];
+
+    this.key = "C";
+    this.pitch = 4;
 
     this.kick = EDrums('x.x.x.x.');
     this.kick.amp = 0.75;
@@ -30,16 +35,13 @@ function Eno() {
     this.snare = EDrums('..o...o.');
     this.snare.amp = 0;
 
-    this.bass = FM('bass')
-       .note.seq( [0,0,0,7,14,13].rnd(), [1/8,1/16].rnd(1/16,2));
+    //this.bass = Mono('bass').note.seq([0,0,0,0,4].rnd(), 1/8);
 
-    this.keys = Synth( 'rhodes', {amp:.35} );
-        //.fx.add( Delay() )
-
+    this.keys = Synth( 'rhodes', {amp:.5} );
     this.setChordSequence(0);
     this.setDrumSequence(0);
-    //Gibber.scale.mode.seq( ['Minor','Mixolydian'], [6,2] )
-
+    //this.lead = Mono('easy').note.seq([0,7,7,5,7,1,1,5,6,6,6].rnd(), [1/8,1/4].rnd());
+    this.setSentiment(0.5);
 }
 
 Eno.prototype.updateVars = function(data){
@@ -53,7 +55,7 @@ Eno.prototype.updateVars = function(data){
 
 Eno.prototype.updateVis = function(data) {
     console.log('New data received!');
-    console.log(data);
+        console.log(data);
     var currentFlockSize = window.eno.flock.birds.length;
     var newFlockSize = Math.floor(data.tempo / 2);
 
@@ -85,8 +87,7 @@ Eno.prototype.setChordSequence = function(number) {
         var rootNum  = Math.floor(Math.abs(noteNumber));
 
         var rootNote = self.scales[self.key][rootNum - 1]
-        rootNote += (rootNote == "a" || rootNote == "b"
-                     ? self.pitch - 1 : self.pitch).toString();
+        rootNote += self.pitch.toString();
         roots.push(rootNote);
 
         var chord = rootNote +
@@ -100,10 +101,25 @@ Eno.prototype.setChordSequence = function(number) {
     console.log(sequence);
 
     // this monstrostity creates an array of 1s the length of the sequence
-    changes = Array.apply(null, Array(numerical.length)).map(Number.prototype.valueOf, 1); // need to change this to be more interesting
+    //changes = Array.apply(null, Array(numerical.length)).map(Number.prototype.valueOf, 1); // need to change this to be more interesting
+    changes = [];
+    for(i=0; i<sequence.length; i++) {
+        changes.push([1/4,1/2,1][Math.floor(random() * 4)]);
+    }
+    console.log(changes);
+
+
     Gibber.scale.root.seq(roots, changes);
     this.keys.chord.seq(sequence, changes);
 };
+
+Eno.prototype.setSentiment = function(number) {
+    // set the mode
+    Gibber.scale.mode = this.modes[Math.floor(number * 7)];
+    // tweak the lead
+
+    // tweak the bass
+}
 
 Eno.prototype.setDrumSequence = function(number) {
     amps = this.drumSequences[number];

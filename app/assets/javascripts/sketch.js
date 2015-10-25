@@ -4,22 +4,30 @@ $(function(){
 
   var flock, text;
 
+
+  window.getUserVars = function() {
+    // grab variables from page layout
+    var vars = {};
+    vars.sentiment = $('#bootstrap-music').data('sentiment');
+    vars.contentLength = $('#bootstrap-music').data('contentLength');
+    vars.chordProgression = $('#bootstrap-music').data('chordProgression');
+    vars.tempo = $('#bootstrap-music').data('tempo');
+    vars.sender = $('#bootstrap-music').data('sender');
+
+    // store the canvas width and height so we can init birds later
+    vars.windowWidth = windowWidth;
+    vars.windowHeight = windowHeight;
+
+    return vars;
+  }
+
   window.setup = function() {
     createCanvas(windowWidth, windowHeight);
 
     window.setupGibber();
     var ajax = new AjaxRequest(window.eno);
 
-    // grab variables from page layout
-    window.eno.vars = {};
-    window.eno.vars.sentiment = $('#bootstrap-music').data('sentiment');
-    window.eno.vars.contentLength = $('#bootstrap-music').data('contentLength');
-    window.eno.vars.chordProgression = $('#bootstrap-music').data('chordProgression');
-    window.eno.vars.tempo = $('#bootstrap-music').data('tempo');
 
-    // store the canvas width and height so we can init birds later
-    window.eno.vars.windowWidth = windowWidth;
-    window.eno.vars.windowHeight = windowHeight;
 
     // fft = FFT( fftSize );
 
