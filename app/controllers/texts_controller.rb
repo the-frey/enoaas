@@ -10,7 +10,7 @@ class TextsController < ApplicationController
     sender = sender.remove(' ') rescue nil
 
     text = Text.create(sender: sender, content: content)
-    ClockworkAPI.send_text(sender, ("#{EnoQuotes.get_quote}.\n- Brian")
+    ClockworkAPI.send_text(sender, ("#{EnoQuotes.get_quote}.\n- Brian"))
 
     if text
       render text: "#{content}", status: 200, layout: false
