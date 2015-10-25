@@ -42,7 +42,7 @@ class Text
       lower_bound = ((analyse_sentiment * 100) * 1.5).round 
       Text.number_within_bounds(lower_bound, Random.rand(200), 200)
     else
-      lower_bound = (analyse_sentiment * 100).round
+      lower_bound = (analyse_sentiment * 100).round + 40
       Text.number_within_bounds(lower_bound, Random.rand(120), 120)
     end
   end
