@@ -40,10 +40,10 @@ class Text
 
     if positive
       lower_bound = ((analyse_sentiment * 100) * 1.5).round 
-      Text.number_within_bounds(lower_bound, Random.rand(200), lower_bound + 10)
+      Text.number_within_bounds(lower_bound, Random.rand(200), 200)
     else
       lower_bound = (analyse_sentiment * 100).round
-      Text.number_within_bounds(lower_bound, Random.rand(120), lower_bound + 10)
+      Text.number_within_bounds(lower_bound, Random.rand(120), 120)
     end
   end
 
