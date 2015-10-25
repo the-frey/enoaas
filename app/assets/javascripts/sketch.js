@@ -164,7 +164,7 @@ $(function(){
   }
 
   Bird.prototype.getColourForBin = function(n){
-    var binValues = ['#d73027','#f46d43','#fdae61','#fee090','#ffffbf','#e0f3f8','#abd9e9','#74add1','#4575b4'];
+    var binValues = ['#d73027','#f46d43','#fdae61','#fee090','#ffffbf','#e0f3f8','#abd9e9','#74add1','#4575b4','#ffffff'];
     return binValues[n];
   }
 
