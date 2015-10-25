@@ -87,10 +87,13 @@ class Text
         return 0
       end
       result = 0.0
+      weights = 0.0
       data.reverse.each_with_index do |value, index|
-        result += Math.erf((Math::PI/2.0)*1.0*index/data.length())*value
+        weight = Math.erf((Math::PI/2.0)*1.0*index/data.length())
+        result += weight*value
+        weights += weight
       end
-      result =Math::PI/2*result/(data.length()*(1.0131077))
+      result = result/(weights)
       return result
     end
   end
