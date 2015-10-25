@@ -21,11 +21,8 @@ class TextsController < ApplicationController
 
   # receives texts from slack
   def create_slack
-    sender = params[:user_id]
+    sender = Random.rand.to_s[2..11].to_i # make fake number
     content = params[:text]
-
-    sender = sender.remove(' ') rescue nil
-    sender = sender.remove('U') rescue nil
 
     text = Text.create(sender: sender, content: content)
 
